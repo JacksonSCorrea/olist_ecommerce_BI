@@ -1,0 +1,467 @@
+#Observações:
+#Um pedido pode ter vários itens.
+#Cada item pode ser preenchido por um vendedor distinto.
+#Todo texto identificando lojas e parceiros foi substituído pelos nomes das grandes casas de Game of Thrones.
+
+#---------------------------------------------------------------------------------------------------------------------------
+#              Pergunta 01 - Total de pedidos
+#---------------------------------------------------------------------------------------------------------------------------
+
+#Total
+select count(distinct order_id) from orders
+# 99441 pedidos
+
+#Período dos pedidos
+select min(order_purchase_timestamp) from orders
+# 2016-04-09
+
+select max(order_purchase_timestamp) from orders 
+# 2018-10-17
+
+#---------------------------------------------------------------------------------------------------------------------------
+#              Pergunta 02 - Receita total gerada pelos pedidos
+#---------------------------------------------------------------------------------------------------------------------------
+
+#Total pedidos
+select sum(price) as total_vendas from order_items
+# R$ 13591643.70
+
+#Total em frete
+select sum(freight_value) as total_frete from order_items
+# R$ 2251909.54
+
+# Total geral: R$ 15.843.552,70
+
+
+#---------------------------------------------------------------------------------------------------------------------------
+#              Pergunta 03 - Média de avaliação dos produtos
+#---------------------------------------------------------------------------------------------------------------------------
+
+select avg(review_score) as avaliacao_media  from reviews r 
+# Avaliação média: 4.08
+
+
+
+#---------------------------------------------------------------------------------------------------------------------------
+#              Pergunta 04 - Produtos e categorias mais e menos vendidos(as)
+#---------------------------------------------------------------------------------------------------------------------------
+
+# 10 categorias mais vendidas no período (em quantidade)
+with tab1 as (
+select
+	o.product_id,
+	p.product_category_name
+from
+	order_items o
+left join products p
+on
+	o.product_id = p.product_id 
+)
+select
+	count(product_category_name) as quantidade,
+	product_category_name
+from
+	tab1
+group by
+	product_category_name
+order by
+	quantidade desc
+limit 10
+
+# 10 produtos mais vendidos no período, ordenados pelo faturamento total
+# OBS: não há tabela com o nome do produto, somente a categoria
+select
+	o.product_id,
+	count(o.product_id) as quantidade_vendas, 
+	sum(o.price) as faturamento_total,
+	sum(o.freight_value) as frete_total,
+	p.product_category_name 
+from
+	order_items o
+left join products p
+on
+	o.product_id = p.product_id
+group by
+	o.product_id, p.product_category_name 
+order by faturamento_total desc
+limit 10
+
+
+# 10 categorias mais vendidos no período, ordenadas pelo faturamento total
+select
+	count(p.product_category_name ) as quantidade_vendas, 
+	sum(o.price) as faturamento_total,
+	sum(o.freight_value) as frete_total,
+	p.product_category_name 
+from
+	order_items o
+left join products p
+on
+	o.product_id = p.product_id
+group by
+	p.product_category_name 
+order by faturamento_total desc
+limit 10
+
+
+
+#---------------------------------------------------------------------------------------------------------------------------
+#              Pergunta 05 - Vendedores mais ativos
+#---------------------------------------------------------------------------------------------------------------------------
+
+
+#Top 10 categorias mais rentáveis, por vendedor
+with tab4 as (
+with tab3 as (
+with tab2 as (
+with tab1 as (
+select
+	o.product_id ,
+	o.seller_id ,
+	o.price ,
+	o.freight_value ,
+	p.product_category_name
+from
+	order_items o
+left join products p on
+	o.product_id = p.product_id )
+select
+	t1.seller_id,
+	sum(t1.price) as faturamento,
+	t1.product_category_name
+from
+	tab1 t1
+left join sellers s 
+on
+	t1.seller_id = s.seller_id
+group by
+	t1.seller_id ,
+	t1.product_category_name
+order by
+	t1.seller_id )
+select
+	*,
+	row_number () over (partition by seller_id
+order by
+	faturamento desc) as ordem_mais_vendidas
+from
+	tab2 )
+select
+	seller_id,
+	product_category_name as categoria_maior_faturamento,
+	faturamento as faturamento_categoria
+from
+	tab3
+where
+	ordem_mais_vendidas = 1 )	
+select
+	tab4.seller_id ,
+	tab5.fat_tot as faturamento_total,
+	tab4.categoria_maior_faturamento,
+	tab4.faturamento_categoria,
+	(100 * tab4.faturamento_categoria / tab5.fat_tot) as perc_fat_categ
+from
+	tab4
+left join (
+	select
+		oi.seller_id,
+		sum(oi.price) as fat_tot
+	from
+		order_items oi
+	group by
+		oi.seller_id) as tab5
+on
+	tab4.seller_id = tab5.seller_id
+order by
+	faturamento_total desc
+limit 10
+
+
+#Verificando
+select
+count( p.product_category_name),
+sum(oi.price) as total_categoria,
+p.product_category_name 
+from products p
+left join order_items oi   
+on oi.product_id = p.product_id 
+where oi.seller_id = '4869f7a5dfa277a7dca6462dcf3b52b2'
+group by product_category_name 
+
+
+#---------------------------------------------------------------------------------------------------------------------------
+#              Pergunta 06 - Número de categorias e produtos
+#---------------------------------------------------------------------------------------------------------------------------
+
+select count(distinct(product_category_name)) from products p 
+# 74 categorias diferentes
+
+select count(distinct(product_id)) from products p 
+# 32951 categorias diferentes
+
+
+
+#---------------------------------------------------------------------------------------------------------------------------
+#              Pergunta 07 - Avaliações positivas
+#---------------------------------------------------------------------------------------------------------------------------
+
+with tab1 as (
+select 
+  (select count(*) from reviews) as tot_aval,
+  (select count(*) from reviews where review_score >= 4) as aval_pos
+)
+select
+*,
+100 * (aval_pos / tot_aval) as perc_aval_maior_igual_4
+from tab1
+
+
+
+#---------------------------------------------------------------------------------------------------------------------------
+#              Pergunta 08 - Vendas por estado
+#---------------------------------------------------------------------------------------------------------------------------
+
+
+select
+	c.customer_state as estado,
+	sum(oi.price) as faturamento_total,
+	sum(oi.freight_value) frete_total
+from
+	customers c
+left join orders o on
+	c.customer_id = o.customer_id
+left join order_items oi on
+	o.order_id = oi.order_id
+group by
+	c.customer_state
+order by
+	faturamento_total desc
+	
+	
+#---------------------------------------------------------------------------------------------------------------------------
+#              Pergunta 09 - Mês com mais vendas
+#---------------------------------------------------------------------------------------------------------------------------
+
+select
+	case when month (o.order_approved_at) = 1 then 'JAN'
+	when month (o.order_approved_at) = 2 then 'FEV'
+	when month (o.order_approved_at) = 3 then 'MAR'
+	when month (o.order_approved_at) = 4 then 'ABR'
+	when month (o.order_approved_at) = 5 then 'MAI'
+	when month (o.order_approved_at) = 6 then 'JUN'
+	when month (o.order_approved_at) = 7 then 'JUL'
+	when month (o.order_approved_at) = 8 then 'AGO'
+	when month (o.order_approved_at) = 9 then 'SET'
+	when month (o.order_approved_at) = 10 then 'OUT'
+	when month (o.order_approved_at) = 11 then 'NOV'
+	when month (o.order_approved_at) = 12 then 'DEZ'
+end as mes,
+concat( month (o.order_approved_at),'-',year (o.order_approved_at)) as num_mes,
+year (o.order_approved_at) as ano,
+round(sum(oi.price),2) as faturamento ,
+round(sum(oi.price ),2) as frete
+from orders o
+left join order_items oi 
+on o.order_id = oi.order_id 
+where o.order_approved_at is not null and o.order_approved_at <> ''
+group by ano, mes, num_mes
+order by ano asc, mes asc
+
+
+#---------------------------------------------------------------------------------------------------------------------------
+#              Pergunta 10 - Top 10 pedidos mais caros
+#---------------------------------------------------------------------------------------------------------------------------
+
+select
+oi.order_id ,
+oi.price as valor,
+p.product_category_name as categoria ,
+c.customer_city as cidade_da_venda,
+c.customer_state as estado_da_venda 
+from order_items oi 
+left join products p on oi.product_id = p.product_id 
+left join orders o on oi.order_id = o.order_id 
+left join customers c on o.customer_id = c.customer_id 
+order by price desc
+limit 15
+
+
+
+#---------------------------------------------------------------------------------------------------------------------------
+#              Pergunta 11 - Avaliações inferiores a 3
+#---------------------------------------------------------------------------------------------------------------------------
+
+with tab1 as (
+select 
+(select count(*) from reviews where review_score <=3) as inferior_a_3,
+(select count(*) from reviews) as total_aval
+)
+select
+inferior_a_3,
+total_aval,
+round(100 * inferior_a_3 / total_aval) as perc_aval_neg
+from tab1
+	
+	
+#---------------------------------------------------------------------------------------------------------------------------
+#              Pergunta 12 - Top 10 vendas por categoria
+#---------------------------------------------------------------------------------------------------------------------------
+	
+select 
+p.product_category_name,
+round(sum(oi.price),2) as faturamento_cat,
+round(sum(oi.freight_value),2) as frete_categoria
+from order_items oi 
+left join products p on oi.product_id = p.product_id 
+group by p.product_category_name 
+order by faturamento_cat desc
+limit 10
+
+	
+	
+#---------------------------------------------------------------------------------------------------------------------------
+#              Pergunta 13 - Média de preço
+#---------------------------------------------------------------------------------------------------------------------------
+
+#Média por categoria
+select 
+p.product_category_name,
+round(avg(oi.price),2) as media_preco_cat,
+round(avg(oi.freight_value),2) as media_frete_categoria
+from order_items oi 
+left join products p on oi.product_id = p.product_id 
+group by p.product_category_name 
+order by media_preco_cat desc
+limit 10
+
+#Média por produto
+with tab1 as (
+select
+sum(oi.price) as soma_por_product_id , 
+p.product_id 
+from order_items oi 
+left join products p on oi.product_id = p.product_id 
+group by p.product_id 
+)
+select avg(soma_por_product_id) as media_produto
+from tab1
+
+
+#Média por pedido
+with tab1 as (
+select 
+order_id , sum(price) as soma_por_id 
+from order_items oi 
+group by order_id
+)
+select avg(soma_por_id) as media_pedido
+from tab1
+
+
+#---------------------------------------------------------------------------------------------------------------------------
+#              Pergunta 14 - Clientes com mais de um pedido
+#---------------------------------------------------------------------------------------------------------------------------
+
+
+with tab1 as (
+select 
+sum(oi.price) as total_vendas, sum(oi.freight_value) as total_frete, c.customer_unique_id
+from order_items oi
+left join orders o on oi.order_id = o .order_id 
+left join customers c on o.customer_id = c.customer_id 
+group by c.customer_unique_id
+),
+tab2 as (
+select 
+c.customer_unique_id ,
+count(c.customer_unique_id) as qtd
+from customers c 
+group by c.customer_unique_id 
+)
+select
+tab1.customer_unique_id,
+tab2.qtd as qtd_pedidos,
+tab1.total_vendas,
+tab1.total_frete
+from tab1
+left join tab2 on tab1.customer_unique_id =  tab2.customer_unique_id
+order by qtd_pedidos desc
+limit 10
+
+# Para verificaçao. note que customer_id possui 14 entradas
+# porém, das 14, somente 9 sao valores distintos
+# Cada order_id pode mais de um customer_id, 
+#por isso há o aumento de ocorrencias de customer_id
+select * from customers c 
+left join orders o on c.customer_id = o.customer_id 
+left join order_items oi on o.order_id =oi.order_id 
+where c.customer_unique_id = '3e43e6105506432c953e165fb2acf44c'
+
+select * from customers c 
+where c.customer_unique_id = '3e43e6105506432c953e165fb2acf44c'
+
+
+#Distribuicao da quantidade de pedidos
+with tab2 as (
+with tab1 as (
+select 
+sum(oi.price) as total_vendas, sum(oi.freight_value) as total_frete, c.customer_unique_id
+from order_items oi
+left join orders o on oi.order_id = o .order_id 
+left join customers c on o.customer_id = c.customer_id 
+group by c.customer_unique_id
+),
+tab2 as (
+select 
+c.customer_unique_id ,
+count(c.customer_unique_id) as qtd
+from customers c 
+group by c.customer_unique_id 
+)
+select
+tab1.customer_unique_id,
+tab2.qtd as qtd_pedidos,
+tab1.total_vendas,
+tab1.total_frete
+from tab1
+left join tab2 on tab1.customer_unique_id =  tab2.customer_unique_id
+order by qtd_pedidos desc
+)
+select
+qtd_pedidos,
+count(qtd_pedidos) as frequencia
+from tab2
+group by qtd_pedidos
+order by frequencia
+
+
+#---------------------------------------------------------------------------------------------------------------------------
+#              Pergunta 15 - Vendas por dia da semana
+#---------------------------------------------------------------------------------------------------------------------------
+
+with tab1 as (
+select
+	case
+		when dayofweek (o.order_approved_at)= 1 then 'DOM'
+		when dayofweek (o.order_approved_at)= 2 then 'SEG'
+		when dayofweek (o.order_approved_at)= 3 then 'TER'
+		when dayofweek (o.order_approved_at)= 4 then 'QUA'
+		when dayofweek (o.order_approved_at)= 5 then 'QUI'
+		when dayofweek (o.order_approved_at)= 6 then 'SEX'
+		when dayofweek (o.order_approved_at)= 7 then 'SAB'
+	end as dia_semana,
+	dayofweek (o.order_approved_at) as num_dia,
+	count(oi.price) as qtd_vendas
+from orders o
+left join order_items oi 
+on o.order_id = oi.order_id
+where
+	o.order_approved_at is not null
+	and o.order_approved_at <> ''
+group by dia_semana, num_dia
+order by num_dia
+)
+select dia_semana, qtd_vendas, num_dia
+from tab1
+
+
