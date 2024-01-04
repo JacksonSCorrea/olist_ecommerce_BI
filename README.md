@@ -9,6 +9,8 @@ criadas à partir do ChatGPT. As perguntas foram divididas em
 grupos de 15 perguntas de nível fácil, 15 perguntas de nível intermediário
 e 15 perguntas de nível avançado.
 
+Até o momento (04/12/2024) foram respondidas as 15 perguntas de nível fácil.
+
 A metodologia consistiu em realizar consultas SQL para a solução de 
 cada pergunta e exportar a tabela gerada. Feito isso, a tabela era
 importada como base no PowerBI e os elementos gráficos eram inseridos.
@@ -20,6 +22,8 @@ deveriam ser respondidas utilizando:
 - case when / row_number / partition by
 - subqueries
 - CTE's
+
+Todas as bases de dados, queries SQL e arquivo do PowerBI se encontram arquivas a este projeto.
 
 
 
