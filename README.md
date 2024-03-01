@@ -1,6 +1,6 @@
 ### Projeto de Análise de Dados - SQL e Power BI
 
-Este é um projeto de Análise de Dados com foco na base "Brazilian E-Commerce Public Dataset by Olist," acessível pelo link: Brazilian E-Commerce Public Dataset by Olist.
+Este é um projeto de Análise de Dados com foco na base "Brazilian E-Commerce Public Dataset by Olist," acessível pelo link: [Brazilian E-Commerce Public Dataset by Olist](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce).
 
 O objetivo principal é utilizar ferramentas de tratamento, visualização e relatórios de dados para criar alguns cenários e fornecer informações relevantes do ponto de vista do negócio.
 
