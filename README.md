@@ -2,7 +2,7 @@
 
 Este é um projeto de Análise de Dados com foco na base "Brazilian E-Commerce Public Dataset by Olist," acessível pelo link: Brazilian E-Commerce Public Dataset by Olist.
 
-O objetivo principal é utilizar ferramentas de tratamento e visualização de dados para criar alguns cenários e fornecer informações relevantes do ponto de vista do negócio.
+O objetivo principal é utilizar ferramentas de tratamento, visualização e relatórios de dados para criar alguns cenários e fornecer informações relevantes do ponto de vista do negócio.
 
 Com auxílio do ChatGPT, à partir dos fornecimento de informações como os relacionamentos entre tabelas e as colunas existentes, foram criadas 40 perguntas de negócio que são respondidas através de tratamentos e consultas realizadas em SQL (utilizando a ferramenta de banco de dados DBeaver) e SparkSQL (com utilização do Google Colab).
 
