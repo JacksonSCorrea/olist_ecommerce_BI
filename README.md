@@ -2,14 +2,22 @@
 
 Este é um projeto de Análise de Dados com foco na base "Brazilian E-Commerce Public Dataset by Olist," acessível pelo link: Brazilian E-Commerce Public Dataset by Olist.
 
-Com auxílio do ChatGPT, à partir dos fornecimento deinformações como os relacionamentos entre tabelas e as colunas existentes,foram criadas 45 perguntas de negócio, separadas em 3 blocos de 15 perguntas.
-O intuito é responder a todas as perguntas de negócio, mas seleionar, em cada bloco, algumas perguntas que podem ser respondidas também através da visualização de dados e da criação de cenários.
+O objetivo principal é utilizar ferramentas de tratamento e visualiação de dados para criar alguns cenários e fornecer informações relevantes do ponto de vista do negócio.
 
-No projeto são utilizados o SQL e o PySpark para transformação dos dados e o Power BI como ferramenta de visualização. As consultas em SQL demandam a utilização de:
-- funções como count, sum, avg, round
-- cláusulas como where, group by, order by, left join, inner join, case when, row_number, partition by
-- além de subqueries e CTE's
+Com auxílio do ChatGPT, à partir dos fornecimento de informações como os relacionamentos entre tabelas e as colunas existentes, foram criadas uma série de perguntas de negócio, que são respondidas através de tratamentos e consultas realizadas em SQL e Spark.
 
+Algumas perguntas foram selecionadas para que fossem criadas visualições
+
+Bloco 1 - todas as 15 perguntas respondidas com SQL e criação de visualização de Power BI
+Bloco 2 - todas as 15 perguntas respondidas com SQL e somente 1 selecionada para criação de visualização em Streamlit
+Bloco 3 - ainda em desenvolvimento - algumas perguntas respondidas utilizando PySPark.
+
+Nas consultas SQL, tanto àquelas realizadas através da ferramentade banco de dados DBeaver, quanto àquelas realizadas pela API Spark para SQL (SparkSQL)
+- funções como COUNT, SUM, AVG, ROUND, MONTH, DAY, etc
+- cláusulas como WHERE, GROUP BY, ORDER BY, LEFT JOIN, INNER JOIN, CASE WHEN, ROW_NUMBER, PARTITION BY, etc
+- além de janelamento, subqueries e CTE's
+
+Na utilização do ecossistema Spark para responder à algumas perguntas
 ---
 
 ## Disponibilidade de Recursos:
