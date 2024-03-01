@@ -1,4 +1,4 @@
-## Projeto de Análise de Dados - SQL e Power BI
+### Projeto de Análise de Dados - SQL e Power BI
 
 Este é um projeto de Análise de Dados com foco na base "Brazilian E-Commerce Public Dataset by Olist," acessível pelo link: Brazilian E-Commerce Public Dataset by Olist.
 
@@ -14,5 +14,7 @@ Nas consultas SQL, tanto àquelas realizadas através do DBeaver, quanto àquela
 As 31 primeiras perguntas foram respondidas utilizando o DBeaver. Da pergunta 32 até a 40, foi utilizado o SparkSQL.
 Para as 15 primeiras perguntas foi gerado um dashboard em PowerBI.
 
-## Disponibilidade de Recursos:
+---
+
+### Disponibilidade de Recursos:
 Todas as bases de dados, consultas SQL e o arquivo de visualização de dashboard estão disponíveis neste repositório.
