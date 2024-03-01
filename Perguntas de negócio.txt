@@ -1,0 +1,34 @@
+Pergunta 02 - Receita total gerada pelos pedidos
+Pergunta 01 - Total de pedidos
+Pergunta 03 - Média de avaliação dos produtos
+Pergunta 04 - Produtos e categorias mais e menos vendidos(as)
+Pergunta 05 - Vendedores mais ativos
+Pergunta 06 - Número de categorias e produtos
+Pergunta 07 - Avaliações positivas
+Pergunta 08 - Vendas por estado
+Pergunta 09 - Mês com mais vendas
+Pergunta 10 - Top 10 pedidos mais caros
+Pergunta 11 - Avaliações inferiores a 3
+Pergunta 12 - Top 10 vendas por categoria
+Pergunta 13 - Média de preço
+Pergunta 14 - Clientes com mais de um pedido
+Pergunta 15 - Vendas por dia da semana
+Pergunta 16 - Média de avaliação por categoria
+Pergunta 17 - Vendas por vendedor
+Pergunta 18 - Mês com maior receita
+Pergunta 19 - Produtos com melhores avaliações
+Pergunta 20 - Top 5 categorias mais lucrativas, média de avaliação de cada e o estado que mais compra
+Pergunta 21 - Total de vendas para cada ano e mês
+Pergunta 22 - Média de preço por categoria
+Pergunta 23 - Clientes mais frequentes - 20 clientes com mais pedidos e qual a categoria
+Pergunta 24 - Listar os vendedores e a avaliação média que eles receberam
+Pergunta 25 - Listar os produtos mais caros por categoria
+Pergunta 26 - Qual é a receita total por cliente
+Pergunta 27 - Quantos pedidos foram cancelados - Status dos pedidos
+Pergunta 28 - Vendas por hora do dia
+Pergunta 29 - Média de avaliações por mês
+Pergunta 30 - Vendedores que tiveram menos de 5 pedidos
+Pergunta 31 - Faturamento de cada produto em relação ao tempo
+
+
+
