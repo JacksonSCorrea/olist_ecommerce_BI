@@ -17,4 +17,4 @@ Para as 15 primeiras perguntas foi gerado um dashboard em PowerBI.
 ---
 
 ### Disponibilidade de Recursos:
-Todas as bases de dados, consultas SQL e o arquivo de visualização de dashboard estão disponíveis neste repositório.
+Todas as bases de dados, consultas SQL e os arquivos de visualização de dashboards estão disponíveis neste repositório.
