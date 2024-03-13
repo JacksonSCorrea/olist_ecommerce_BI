@@ -31,7 +31,7 @@ Pergunta 30 - Vendedores que tiveram menos de 5 pedidos
 Pergunta 31 - Faturamento de cada produto em relação ao tempo
 Pergunta 32 - Variação mensal na Receita levanto em conta os parcelamentos
 Pergunta 33 - Clientes que mais utilizam diferentes forma de pagamento
-Pergunta 34 - Vendedor com maior número de pagamentos em seus pedidos
+Pergunta 34 - Vendedor com maior número de parcelamentos em seus pedidos
 
 
 
