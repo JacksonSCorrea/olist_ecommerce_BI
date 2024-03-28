@@ -32,6 +32,8 @@ Pergunta 31 - Faturamento de cada produto em relação ao tempo
 Pergunta 32 - Variação mensal na Receita levando em conta os parcelamentos
 Pergunta 33 - Clientes que mais utilizam diferentes forma de pagamento
 Pergunta 34 - Vendedor com maior número de parcelamentos em seus pedidos
+Pergunta 35 - Pedidos que ainda não foram avaliados e tiveram pagamento parcelado
+Pergunta 36 - Categorias com maior variação percentual do preço médio ao longo do tempo
 
 
 
